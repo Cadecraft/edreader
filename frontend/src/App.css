@@ -1,42 +1,44 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.upperbar {
+  background-color: var(--primary);
+  color: var(--lighttext);
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.section {
+  margin: 10px;
+  background-color: var(--surface);
+  padding: 10px;
+  border-radius: 6px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.coursebox {
+  border-radius: 6px;
+  padding: 6px;
+  width: 120px;
+  height: 140px;
+  background-color: var(--surface2);
+  transition: all 0.1s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.coursebox:hover {
+  background-color: var(--primary-dark);
+  color: white;
+  transform: translate(0px, -4px);
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.card {
-  padding: 2em;
+.coursebox:active {
+  transform: translate(0px, -2px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  background-color: var(--primary-light);
 }
 
-.read-the-docs {
-  color: #888;
+.courselist {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
