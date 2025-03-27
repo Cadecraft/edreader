@@ -2,7 +2,7 @@ use edstem;
 use axum::{http::StatusCode, Json, extract::State};
 use serde::Serialize;
 
-const DEFAULT_AVATAR: &str = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg/250px-Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg";
+const DEFAULT_AVATAR: &str = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
 #[derive(Serialize)]
 pub struct User {

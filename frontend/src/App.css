@@ -7,6 +7,11 @@
   justify-content: space-between;
 }
 
+.lowerbar {
+  background-color: var(--surface);
+  padding: 8px;
+}
+
 .section {
   margin: 10px;
   background-color: var(--surface);
@@ -41,4 +46,22 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+
+.avatarimg {
+  width: 36px;
+  height: 36px;
+  border-radius: 36px;
+}
+
+.upperbar-username-box {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.smalltext {
+  font-size: 11px;
 }

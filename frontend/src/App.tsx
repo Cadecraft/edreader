@@ -63,12 +63,19 @@ function App() {
         <div>
           <b>edreader</b>
         </div>
-        <div>
-          signed in as {userData.name}
+        <div className="upperbar-username-box">
+          <img className="avatarimg" src={userData.avatar} />
+          <div>
+            {userData.name}
+            <br /> <span className="smalltext">Signed in via .env token</span>
+          </div>
         </div>
       </div>
       <HomePage />
       <DiscussionPage />
+      <div className="lowerbar">
+        This is an unofficial client for Edstem's <a href="https://edstem.org/">Ed Discussion.</a>
+      </div>
     </>
   );
 }
