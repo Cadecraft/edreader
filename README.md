@@ -4,9 +4,11 @@ edreader (pronounce: Ed-Reader) is an unofficial frontend client for Edstem's Ed
 
 ## Features
 - Fully functional features
-    - Nothing yet!
+    - View your profile picture and username
+    - More coming soon!
 - Planned features
-    - **Read-only** access to all courses and course discussions
+    - Read-only access to all courses and course discussions
+    - Better appearance (custom color schemes, etc.)
 
 ## Running the project
 - Frontend
@@ -33,5 +35,7 @@ edreader (pronounce: Ed-Reader) is an unofficial frontend client for Edstem's Ed
     - Vite
     - React
     - Typescript
-- Rust backend
+- Backend
+    - Rust
+    - axum
     - [laggycomputer/edstem](https://github.com/laggycomputer/edstem)
