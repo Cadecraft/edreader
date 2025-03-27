@@ -10,15 +10,21 @@ edreader (pronounce: Ed-Reader) is an unofficial frontend client for Edstem's Ed
 
 ## Running the project
 - Frontend
-```sh
-cd frontend
-npm install
-npm run dev
-```
-- Backend
-    - Create an `.env` file (`backend/.env`) containing your API key (obtain one [here](https://edstem.org/us/settings/api-tokens))
+    - Create a `.env` file (`frontend/.env`) containing the following (see `frontend/.env.example` for an example):
+        - The URL the server is running on
     - Run
     ```sh
+    cd frontend
+    npm install
+    npm run dev
+    ```
+- Backend
+    - Create a `.env` file (`backend/.env`) containing the following (see `backend/.env.example` for an example):
+        - Your API key (obtain one [here](https://edstem.org/us/settings/api-tokens))
+        - The URL you want the server to run on
+    - Run
+    ```sh
+    cd backend
     cargo run
     ```
 

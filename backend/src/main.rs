@@ -3,9 +3,9 @@ use dotenv::dotenv;
 use tokio;
 use axum::{
     routing::{get, post},
+    http::{header::{AUTHORIZATION, CONTENT_TYPE}, HeaderValue},
     Json, Router
 };
-use serde::{Deserialize, Serialize};
 mod user;
 
 #[tokio::main]

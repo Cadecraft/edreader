@@ -1,6 +1,6 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useEffect, useState } from 'react'
+import { User } from './types'
 
 function CourseBox(props: {courseName: string, courseDetail: string}) {
   return (
@@ -38,6 +38,25 @@ function DiscussionPage() {
 }
 
 function App() {
+  const [userData, setUserData] = useState<User>({
+    name: "Loading...",
+    avatar: "Loading...",
+    email: "Loading...",
+    username: "Loading..."
+  });
+
+
+  useEffect(() => {
+    // Fetch the name and other information from the server
+    fetch(
+      "/api/selfuserinfo", {
+        method: "GET"
+      }
+    )
+    .then(resp => { return resp.json() })
+    .then(res => setUserData(res));
+  }, []);
+
   return (
     <>
       <div className="upperbar">
@@ -45,7 +64,7 @@ function App() {
           <b>edreader</b>
         </div>
         <div>
-          signed in as
+          signed in as {userData.name}
         </div>
       </div>
       <HomePage />
