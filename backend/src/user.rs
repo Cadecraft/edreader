@@ -1,6 +1,6 @@
 use edstem;
 use axum::{http::StatusCode, Json, extract::State};
-use serde::{Serialize};
+use serde::Serialize;
 
 const DEFAULT_AVATAR: &str = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg/250px-Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg";
 
@@ -16,7 +16,6 @@ pub async fn get_self_user_info(
     State(state): State<edstem::Client>,
 ) -> (StatusCode, Json<User>) {
     let user = state.get_self_user().await.expect("Could not get user");
-    //let em = user.email();
     let res = User {
         name: user.user().name().clone(),
         avatar: user.user().avatar().clone().unwrap_or(String::from(DEFAULT_AVATAR)),
@@ -27,6 +26,7 @@ pub async fn get_self_user_info(
     (StatusCode::OK, Json(res))
 }
 
+// Reference:
 /*pub async fn create_user(
     // this argument tells axum to parse the request body
     // as JSON into a `CreateUser` type
