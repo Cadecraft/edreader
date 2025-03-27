@@ -1,17 +1,14 @@
 use edstem;
 use dotenv::dotenv;
 use tokio;
-use axum::{
-    routing::{get, post},
-    http::{header::{AUTHORIZATION, CONTENT_TYPE}, HeaderValue},
-    Json, Router
-};
+use axum::{ routing::get, Router };
 mod user;
 
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    let client = edstem::Client::new(&std::env::var("EDSTEM_API_KEY").expect("The API key (EDSTEM_API_KEY) must be defined in the .env file"));
+    let edstem_api_key = &std::env::var("EDSTEM_API_KEY").expect("The API key (EDSTEM_API_KEY) must be defined in the .env file");
+    let client = edstem::Client::new(edstem_api_key);
     // Test the client
     let user_email = client.get_self_user().await.expect("Expected self user").user().email().clone();
     println!("Created client with email {}", user_email);

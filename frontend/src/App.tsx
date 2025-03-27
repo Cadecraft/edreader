@@ -1,41 +1,10 @@
 import './App.css'
 import { useEffect, useState } from 'react'
 import { User } from './types'
+import HomePage from './pages/HomePage'
+import DiscussionPage from './pages/DiscussionPage'
 
-function CourseBox(props: {courseName: string, courseDetail: string}) {
-  return (
-    <div className="coursebox">
-      <b>{props.courseName}</b>
-      <br />
-      {props.courseDetail}
-    </div>
-  );
-}
-
-function HomePage() {
-  return (
-    <>
-      <div className="organizer">
-        <div className="section">
-          <h2>Courses</h2>
-          <div className="courselist">
-            <CourseBox courseName="ICS 33 Winter 2025" courseDetail="Intermediate Programming with Python" />
-            <CourseBox courseName="I&C SCI 6D LEC A" courseDetail="Discret Math for Cs" />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function DiscussionPage() {
-  return (
-    <>
-      <div className="organizer">
-      </div>
-    </>
-  );
-}
+type pages = "home" | "discussion";
 
 function App() {
   const [userData, setUserData] = useState<User>({
@@ -45,6 +14,8 @@ function App() {
     username: "Loading..."
   });
 
+  const [page, setPage] = useState<pages>("home");
+  const [selectedCourseId, setSelectedCourseId] = useState<string>("");
 
   useEffect(() => {
     // Fetch the name and other information from the server
@@ -57,24 +28,31 @@ function App() {
     .then(res => setUserData(res));
   }, []);
 
+  const goToCourse = (courseId: string) => {
+    setPage("discussion");
+    setSelectedCourseId(courseId);
+  }
+
   return (
     <>
-      <div className="upperbar">
-        <div>
-          <b>edreader</b>
-        </div>
-        <div className="upperbar-username-box">
-          <img className="avatarimg" src={userData.avatar} />
+      <div className="fullpage">
+        <div className="upperbar">
           <div>
-            {userData.name}
-            <br /> <span className="smalltext">Signed in via .env token</span>
+            <span className="edreader-title" onClick={() => setPage("home")}>edreader</span>
+          </div>
+          <div className="upperbar-username-box">
+            <img className="avatarimg" src={userData.avatar} />
+            <div>
+              {userData.name}
+              <br /> <span className="smalltext">Signed in via .env token</span>
+            </div>
           </div>
         </div>
-      </div>
-      <HomePage />
-      <DiscussionPage />
-      <div className="lowerbar">
-        This is an unofficial client for Edstem's <a href="https://edstem.org/">Ed Discussion.</a>
+        {page == "home" && <HomePage goToCourse={goToCourse} />}
+        {page == "discussion" && <DiscussionPage courseId={selectedCourseId} />}
+        <div className="lowerbar">
+          This is an unofficial client for Edstem's <a href="https://edstem.org/">Ed Discussion.</a>
+        </div>
       </div>
     </>
   );

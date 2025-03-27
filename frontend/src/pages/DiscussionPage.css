@@ -1,0 +1,37 @@
+.discussionmain {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 1;
+  gap: 0px;
+  align-items: stretch;
+  height: 100%;
+}
+
+.thread-details {
+  flex: 1;
+  width: 100%;
+  overflow: scroll;
+}
+
+.threadslist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: scroll;
+}
+
+.left-sidebar {
+  width: 300px;
+  background-color: var(--surface);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.thread {
+  padding: 8px;
+  background-color: var(--surface2);
+  height: 46px;
+  border-radius: 6px;
+}

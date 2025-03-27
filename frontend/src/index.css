@@ -6,6 +6,8 @@
   --primary-dark: #196a66;
   --surface: #dee2e3;
   --surface2: #c9cfd1;
+  --accentblue: #449cdb;
+  --accentbluedark: #2f7bc2;
 }
 
 body {
@@ -15,4 +17,12 @@ body {
 
 h2, h1 {
   margin: 0px;
+}
+
+a, a:visited {
+  color: var(--accentblue);
+}
+
+a:hover {
+  color: var(--accentbluedark);
 }
