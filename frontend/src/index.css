@@ -26,3 +26,19 @@ a, a:visited {
 a:hover {
   color: var(--accentbluedark);
 }
+
+button {
+  background-color: var(--accentblue);
+  border: none;
+  border-radius: 8px;
+  color: var(--lighttext);
+}
+
+button:hover {
+  background-color: var(--accentbluedark);
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--surface2);
+}

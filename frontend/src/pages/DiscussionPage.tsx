@@ -15,20 +15,32 @@ function ThreadBox(props: {thread: Thread}) {
 
 export default function DiscussionPage(props: {course: Course}) {
   const [threads, setThreads] = useState<Thread[]>([]);
+  const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    // Fetch the name and other information from the server
+  // Fetch more threads
+  function fetchMore() {
+    setFetching(true);
     fetch(
       "/api/threads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          courseid: props.course.course.id
+          courseid: props.course.course.id,
+          offset: threads.length
         })
       }
     )
     .then(resp => { return resp.json() })
-    .then(res => setThreads(res));
+    .then(res => {
+      setThreads(threads.concat(res))
+      setFetching(false);
+    }).catch(err => {
+      setFetching(false);
+    });
+  }
+
+  useEffect(() => {
+    fetchMore();
   }, []);
 
   return (
@@ -40,6 +52,7 @@ export default function DiscussionPage(props: {course: Course}) {
               {threads.map(
                 (thread) => <ThreadBox thread={thread} key={thread.id} />
               )}
+              <button disabled={fetching} onClick={fetchMore}>+ Load More</button>
             </div>
           </div>
           <div className={"section thread-details"}>
