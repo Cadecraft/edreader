@@ -6,6 +6,6 @@ edition = "2021"
 [dependencies]
 axum = "0.8.1"
 dotenv = "0.15.0"
-edstem = "0.3.1"
+edstem = { git = "https://github.com/laggycomputer/edstem.git", features = ["serde"] }
 serde = "1.0.219"
 tokio = { version = "1.44.1", features = ["full"] }

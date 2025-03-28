@@ -1,13 +1,14 @@
 import './../App.css'
 import './DiscussionPage.css'
 
-export default function DiscussionPage(props: {courseId: string}) {
+import { Course } from './../types'
+
+export default function DiscussionPage(props: {course: Course}) {
   return (
     <>
       <div className="page">
         <div className="discussionmain">
           <div className="left-sidebar">
-            <h2>Discussion for {props.courseId}</h2>
             <div className="threadslist">
               <div className="thread">
                 <b>How to print hello world?</b>

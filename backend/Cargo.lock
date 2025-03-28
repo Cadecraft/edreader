@@ -195,8 +195,7 @@ checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
 [[package]]
 name = "edstem"
 version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d96e52e32ffdf82d330d0c9939230a2c7e0f9d8ad760e6e5ba7476614e61161e"
+source = "git+https://github.com/laggycomputer/edstem.git#6aa0c8045d3d6ca5586f31d9614fe8559566e2b7"
 dependencies = [
  "derive-getters",
  "reqwest",

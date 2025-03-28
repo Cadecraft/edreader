@@ -19,6 +19,7 @@ async fn main() {
         .route("/", get(root))
         // Getting info about users
         .route("/selfuserinfo", get(user::get_self_user_info))
+        .route("/selfusercourses", get(user::get_self_user_courses))
         .with_state(client);
 
     // Run the app with hyper, listening globally

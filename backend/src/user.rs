@@ -1,29 +1,28 @@
 use edstem;
-use axum::{http::StatusCode, Json, extract::State};
-use serde::Serialize;
-
-const DEFAULT_AVATAR: &str = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-
-#[derive(Serialize)]
-pub struct User {
-    name: String,
-    avatar: String,
-    email: String,
-    username: String,
-}
+use axum::{
+    http::StatusCode,
+    extract::State,
+    Json,
+    response::{
+        Response,
+        IntoResponse
+    }
+};
 
 pub async fn get_self_user_info(
-    State(state): State<edstem::Client>,
-) -> (StatusCode, Json<User>) {
-    let user = state.get_self_user().await.expect("Could not get user");
-    let res = User {
-        name: user.user().name().clone(),
-        avatar: user.user().avatar().clone().unwrap_or(String::from(DEFAULT_AVATAR)),
-        email: user.user().email().to_string(),
-        username: user.user().username().clone().unwrap_or(String::from("No username"))
-    };
+    State(client): State<edstem::Client>,
+) -> (StatusCode, Response) {
+    let user = client.get_self_user().await.expect("Could not get user");
 
-    (StatusCode::OK, Json(res))
+    (StatusCode::OK, Json(user.user()).into_response())
+}
+
+pub async fn get_self_user_courses(
+    State(client): State<edstem::Client>,
+) -> (StatusCode, Response) {
+    let user = client.get_self_user().await.expect("Could not get user");
+
+    (StatusCode::OK, Json(user.courses()).into_response())
 }
 
 // Reference:

@@ -1,10 +1,9 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import { User } from './types'
+import { User, Course } from './types'
 import HomePage from './pages/HomePage'
 import DiscussionPage from './pages/DiscussionPage'
-
-type pages = "home" | "discussion";
+import UpperBar from './components/upperbar'
 
 function App() {
   const [userData, setUserData] = useState<User>({
@@ -14,8 +13,8 @@ function App() {
     username: "Loading..."
   });
 
-  const [page, setPage] = useState<pages>("home");
-  const [selectedCourseId, setSelectedCourseId] = useState<string>("");
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     // Fetch the name and other information from the server
@@ -26,30 +25,24 @@ function App() {
     )
     .then(resp => { return resp.json() })
     .then(res => setUserData(res));
+    fetch(
+      "/api/selfusercourses", {
+        method: "GET"
+      }
+    )
+    .then(resp => { return resp.json() })
+    .then(res => setCourses(res));
   }, []);
 
-  const goToCourse = (courseId: string) => {
-    setPage("discussion");
-    setSelectedCourseId(courseId);
+  const goToCourse = (course: Course) => {
+    setSelectedCourse(course);
   }
 
   return (
     <>
       <div className="fullpage">
-        <div className="upperbar">
-          <div>
-            <span className="edreader-title" onClick={() => setPage("home")}>edreader</span>
-          </div>
-          <div className="upperbar-username-box">
-            <img className="avatarimg" src={userData.avatar} />
-            <div>
-              {userData.name}
-              <br /> <span className="smalltext">Signed in via .env token</span>
-            </div>
-          </div>
-        </div>
-        {page == "home" && <HomePage goToCourse={goToCourse} />}
-        {page == "discussion" && <DiscussionPage courseId={selectedCourseId} />}
+        <UpperBar selectedCourse={selectedCourse} clickTitle={() => setSelectedCourse(null)} userData={userData} />
+        {selectedCourse ? <DiscussionPage course={selectedCourse} /> : <HomePage courses={courses} goToCourse={goToCourse} />}
         <div className="lowerbar">
           This is an unofficial client for Edstem's <a href="https://edstem.org/">Ed Discussion.</a>
         </div>
