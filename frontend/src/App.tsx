@@ -8,7 +8,7 @@ import UpperBar from './components/upperbar'
 function App() {
   const [userData, setUserData] = useState<User>({
     name: "Loading...",
-    avatar: "Loading...",
+    avatar: "",
     email: "Loading...",
     username: "Loading..."
   });

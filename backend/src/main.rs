@@ -1,8 +1,9 @@
 use edstem;
 use dotenv::dotenv;
 use tokio;
-use axum::{ routing::get, Router };
+use axum::{ routing::{get, post}, Router };
 mod user;
+mod threads;
 
 #[tokio::main]
 async fn main() {
@@ -20,6 +21,7 @@ async fn main() {
         // Getting info about users
         .route("/selfuserinfo", get(user::get_self_user_info))
         .route("/selfusercourses", get(user::get_self_user_courses))
+        .route("/threads", post(threads::get_threads))
         .with_state(client);
 
     // Run the app with hyper, listening globally
