@@ -38,6 +38,11 @@
   transition: 0.1s all;
 }
 
+.thread-selected {
+  background-color: var(--primary-light);
+  color: white;
+}
+
 .thread:hover {
   background-color: var(--primary-dark);
   color: white;
@@ -50,4 +55,41 @@
   transform: translate(0px, -2px);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: var(--primary-light);
+}
+
+.userdisp-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Temporary styles for the HTML generated from converting the XML */
+span.docparagraph {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+span.docfigure {
+  margin-left: 0px;
+  width: 100%;
+}
+
+img.docimage {
+  width: 100% !important;
+  height: auto !important;
+}
+
+pre.docpre {
+  background-color: var(--surface2);
+  border-radius: 6px;
+  padding: 6px;
+  overflow: scroll;
+}
+
+code.doccode {
+  background-color: var(--surface2);
+  border-radius: 6px;
+  padding: 2px;
 }

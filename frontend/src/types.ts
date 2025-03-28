@@ -54,10 +54,10 @@ export type Thread = {
   number: number, // The actual user-facing number identifier of the post
   type: string,
   title: string,
-  content: string, // HTML content
+  content: string, // XML content
   document: string, // Text?
   category: string, // Such as "Labs" or "Projects"
-  subcatgory: string,
+  subcategory: string,
   subsubcategory: string,
   flag_count: number,
   star_count: number,
@@ -89,4 +89,40 @@ export type Thread = {
   glanced_at: string,
   new_reply_count: number,
   user: ThreadUser | null
+}
+
+export type Comment = {
+
+}
+
+export type Answer = {
+  id: number,
+  user_id: number,
+  course_id: number,
+  thread_id: number,
+  original_id: number | null,
+  parent_id: number | null,
+  editor_id: number | null,
+  number: number,
+  type: string,
+  kind: string,
+  content: string, // XML
+  document: string,
+  flag_count: number,
+  vote_count: number,
+  is_endorsed: boolean,
+  is_anonymous: boolean,
+  is_private: boolean,
+  is_resolved: boolean,
+  created_at: string,
+  updated_at: string | null,
+  deleted_at: string | null,
+  anonymous_id: number,
+  vote: number,
+  comments: Comment[]
+}
+
+export type ThreadDetails = {
+  answers: Answer[],
+  comments: Comment[]
 }

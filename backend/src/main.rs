@@ -22,6 +22,7 @@ async fn main() {
         .route("/selfuserinfo", get(user::get_self_user_info))
         .route("/selfusercourses", get(user::get_self_user_courses))
         .route("/threads", post(threads::get_threads))
+        .route("/thread", post(threads::get_thread))
         .with_state(client);
 
     // Run the app with hyper, listening globally

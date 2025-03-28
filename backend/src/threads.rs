@@ -28,7 +28,22 @@ pub async fn get_threads(
             sort: edstem::opts::GetCourseThreadsSortKey::New
         })
     ).await.expect("Could not get course threads");
-    println!("{} threads found, starting at {}", threads.threads().len(), payload.offset);
 
     (StatusCode::OK, Json(threads.threads()).into_response())
+}
+
+#[derive(Deserialize)]
+pub struct GetThread {
+    courseid: u64,
+    threadnumber: u64
+}
+
+pub async fn get_thread(
+    State(client): State<edstem::Client>,
+    Json(payload): Json<GetThread>
+) -> (StatusCode, Response) {
+    let thread = client.get_thread_by_number(payload.courseid, payload.threadnumber)
+        .await.expect("Could not get thread");
+
+    (StatusCode::OK, Json(thread.thread()).into_response())
 }
