@@ -111,7 +111,7 @@ function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: Thr
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.thread.content)}}></div>
       <hr />
       {threadDetails ? threadDetails.comments.map(
-        (comment) => <CommentDisplay key={"" + comment.id} comment={comment} />
+        (comment) => <CommentDisplay key={"" + comment.id} comment={comment} users={props.users} />
       ) : <></>}
       {threadDetails ? threadDetails.answers.map(
         (answer) => <AnswerDisplay key={answer.id} answer={answer} users={props.users} />
