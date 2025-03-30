@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './../App.css'
 import './DiscussionPage.css'
-import { Course, Thread, ThreadDetails, ThreadUser, Answer, User } from './../types'
+import { Course, Thread, ThreadDetails, ThreadUser, Answer, ThreadUserMap } from './../types'
 import AvatarImage from './../components/AvatarImage'
 
 /** Format a date based on a time string provided by the API */
@@ -52,9 +52,9 @@ function contentXMLToHTML(contentXML: string) {
   return res;
 }
 
-function AnswerDisplay(props: {answer: Answer, users: ThreadUser[]}) {
-  // TODO: get the user's info, too
-  let poster = props.users.find((element) => element.id == props.answer.user_id);
+function AnswerDisplay(props: {answer: Answer, users: ThreadUserMap}) {
+  let poster = props.users.get(props.answer.user_id);
+
   return (
     <div>
       {/* TODO: get the user's info, too */}
@@ -65,7 +65,7 @@ function AnswerDisplay(props: {answer: Answer, users: ThreadUser[]}) {
   )
 }
 
-function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: ThreadUser[]}) {
+function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: ThreadUserMap}) {
   const [threadDetails, setThreadDetails] = useState<ThreadDetails | null>(null);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: Thr
 
 export default function DiscussionPage(props: {course: Course}) {
   const [threads, setThreads] = useState<Thread[]>([]);
-  const [users, setUsers] = useState<ThreadUser[]>([]);
+  const [users, setUsers] = useState<Map<number, ThreadUser>>(new Map<number, ThreadUser>());
   const [fetching, setFetching] = useState(false);
   const [selectedThread, setSelectedThread] = useState<Thread | null>(null);
 
@@ -121,7 +121,11 @@ export default function DiscussionPage(props: {course: Course}) {
     .then(resp => { return resp.json() })
     .then(res => {
       setThreads(threads.concat(res.threads));
-      setUsers(res.users);
+      let newUserMap = new Map(users);
+      for (const u of res.users) {
+        newUserMap.set(u.id, u);
+      }
+      setUsers(newUserMap);
       setFetching(false);
     }).catch(_err => {
       setFetching(false);

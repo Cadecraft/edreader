@@ -44,6 +44,8 @@ export type ThreadUser = {
   course_role: string
 }
 
+export type ThreadUserMap = Map<number, ThreadUser>;
+
 export type Thread = {
   id: number,
   user_id: number,
