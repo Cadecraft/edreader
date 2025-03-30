@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './../App.css'
 import './DiscussionPage.css'
-import { Course, Thread, ThreadDetails, ThreadUser } from './../types'
+import { Course, Thread, ThreadDetails, ThreadUser, Answer, User } from './../types'
 import AvatarImage from './../components/AvatarImage'
 
 /** Format a date based on a time string provided by the API */
@@ -48,10 +48,24 @@ function contentXMLToHTML(contentXML: string) {
     .replace(/<pre/g, "<pre class=\"docpre\"")
     .replace(/<code/g, "<code class=\"doccode\"")
     .replace(/<paragraph/g, "<span class=\"docparagraph\"");
+    //.replace(/<link/g, "<a class=\"doca\"")
   return res;
 }
 
-function ThreadDetailsDisplay(props: {course: Course, thread: Thread}) {
+function AnswerDisplay(props: {answer: Answer, users: ThreadUser[]}) {
+  // TODO: get the user's info, too
+  let poster = props.users.find((element) => element.id == props.answer.user_id);
+  return (
+    <div>
+      {/* TODO: get the user's info, too */}
+      <UserDisp user={poster ? poster : null} />
+      {/* TODO: fix this to be safer */}
+      <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.answer.content)}}></div>
+    </div>
+  )
+}
+
+function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: ThreadUser[]}) {
   const [threadDetails, setThreadDetails] = useState<ThreadDetails | null>(null);
 
   useEffect(() => {
@@ -78,12 +92,16 @@ function ThreadDetailsDisplay(props: {course: Course, thread: Thread}) {
       {/* TODO: fix this to be safer */}
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.thread.content)}}></div>
       <hr />
+      {threadDetails ? threadDetails.answers.map(
+        (answer) => <AnswerDisplay key={answer.id} answer={answer} users={props.users} />
+      ) : <></>}
     </>
   );
 }
 
 export default function DiscussionPage(props: {course: Course}) {
   const [threads, setThreads] = useState<Thread[]>([]);
+  const [users, setUsers] = useState<ThreadUser[]>([]);
   const [fetching, setFetching] = useState(false);
   const [selectedThread, setSelectedThread] = useState<Thread | null>(null);
 
@@ -102,7 +120,8 @@ export default function DiscussionPage(props: {course: Course}) {
     )
     .then(resp => { return resp.json() })
     .then(res => {
-      setThreads(threads.concat(res));
+      setThreads(threads.concat(res.threads));
+      setUsers(res.users);
       setFetching(false);
     }).catch(_err => {
       setFetching(false);
@@ -132,7 +151,7 @@ export default function DiscussionPage(props: {course: Course}) {
           </div>
           <div className={"section thread-details"}>
             {selectedThread ?
-              <ThreadDetailsDisplay thread={selectedThread} course={props.course} />
+              <ThreadDetailsDisplay thread={selectedThread} course={props.course} users={users} />
               : <span>Nothing here yet!</span>}
           </div>
         </div>

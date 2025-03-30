@@ -29,7 +29,7 @@ pub async fn get_threads(
         })
     ).await.expect("Could not get course threads");
 
-    (StatusCode::OK, Json(threads.threads()).into_response())
+    (StatusCode::OK, Json(threads).into_response())
 }
 
 #[derive(Deserialize)]

@@ -1,5 +1,6 @@
 // Types (to be compatible with the backend API)
 
+/** The current signed-in user */
 export type User = {
   name: string,
   avatar: string | null,
