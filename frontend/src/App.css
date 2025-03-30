@@ -26,6 +26,12 @@
   border-radius: 36px;
 }
 
+.avatarimg-mini {
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+}
+
 .upperbar-username-box {
   display: flex;
   flex-direction: row;

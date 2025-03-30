@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './../App.css'
 import './DiscussionPage.css'
-import { Course, Thread, ThreadDetails, ThreadUser, Answer, ThreadUserMap } from './../types'
+import { Course, Thread, ThreadDetails, ThreadUser, Answer, ThreadUserMap, ThreadComment } from './../types'
 import AvatarImage from './../components/AvatarImage'
 
 /** Format a date based on a time string provided by the API */
@@ -28,10 +28,10 @@ function ThreadBox(props: {thread: Thread, onClick: () => void, selected: boolea
   );
 }
 
-function UserDisp(props: {user: ThreadUser | null}) {
+function UserDisp(props: {user: ThreadUser | null, miniSize?: boolean}) {
   return (
     <div className="userdisp-container">
-      <AvatarImage avatarSrc={props.user ? props.user.avatar : null}/>
+      <AvatarImage avatarSrc={props.user ? props.user.avatar : null} miniSize={props.miniSize} />
       {props.user ? props.user.name : "Anonymous"}
     </div>
   );
@@ -52,15 +52,33 @@ function contentXMLToHTML(contentXML: string) {
   return res;
 }
 
+function CommentDisplay(props: {comment: ThreadComment, users: ThreadUserMap}) {
+  let poster = props.users.get(props.comment.user_id);
+
+  return (
+    <div className="comment-block">
+      <UserDisp user={poster ? poster : null} miniSize={true} />
+      <span className="smalltext">
+        <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.comment.content)}}></div>
+      </span>
+      {props.comment.comments.map(
+        (comment) => <CommentDisplay key={comment.id} comment={comment} users={props.users} />
+      )}
+    </div>
+  )
+}
+
 function AnswerDisplay(props: {answer: Answer, users: ThreadUserMap}) {
   let poster = props.users.get(props.answer.user_id);
 
   return (
     <div>
-      {/* TODO: get the user's info, too */}
       <UserDisp user={poster ? poster : null} />
       {/* TODO: fix this to be safer */}
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.answer.content)}}></div>
+      {props.answer.comments.map(
+        (comment) => <CommentDisplay key={comment.id} comment={comment} users={props.users} />
+      )}
     </div>
   )
 }
@@ -92,6 +110,9 @@ function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: Thr
       {/* TODO: fix this to be safer */}
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.thread.content)}}></div>
       <hr />
+      {threadDetails ? threadDetails.comments.map(
+        (comment) => <CommentDisplay key={"" + comment.id} comment={comment} />
+      ) : <></>}
       {threadDetails ? threadDetails.answers.map(
         (answer) => <AnswerDisplay key={answer.id} answer={answer} users={props.users} />
       ) : <></>}

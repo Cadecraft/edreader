@@ -64,6 +64,12 @@
   gap: 10px;
 }
 
+.comment-block {
+  border-left: solid 4px var(--surface2);
+  padding-left: 14px;
+  margin-top: 12px;
+}
+
 /* Temporary styles for the HTML generated from converting the XML */
 span.docparagraph {
   display: block;

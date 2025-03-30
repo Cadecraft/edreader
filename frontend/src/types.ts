@@ -94,10 +94,6 @@ export type Thread = {
   user: ThreadUser | null
 }
 
-export type Comment = {
-
-}
-
 export type Answer = {
   id: number,
   user_id: number,
@@ -122,8 +118,10 @@ export type Answer = {
   deleted_at: string | null,
   anonymous_id: number,
   vote: number,
-  comments: Comment[]
+  comments: ThreadComment[]
 }
+
+export type ThreadComment = Answer;
 
 export type ThreadDetails = {
   answers: Answer[],
