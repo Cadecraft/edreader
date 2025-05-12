@@ -3,10 +3,17 @@ import './../App.css'
 import './DiscussionPage.css'
 import { Course, Thread, ThreadDetails, ThreadUser, Answer, ThreadUserMap, ThreadComment } from './../types'
 import AvatarImage from './../components/AvatarImage'
+import $ from 'jquery'
 
-/** Format a date based on a time string provided by the API */
+/** Format a date based on a time string provided by the API
+ * Example: "2024-12-15T13:52:27.137683+11:00"
+*/
 function formatDate(time: string) {
-  return time.substring(0, 4) + "/" + time.substring(5, 7) + "/" + time.substring(8, 10);
+  return time.substring(0, 4)
+    + "/" + time.substring(5, 7)
+    + "/" + time.substring(8, 10)
+    + " " + time.substring(11, 13)
+    + ":" + time.substring(14, 16);
 }
 
 function ThreadBox(props: {thread: Thread, onClick: () => void, selected: boolean}) {
@@ -42,6 +49,10 @@ function UserDisp(props: {user: ThreadUser | null, miniSize?: boolean}) {
  * TODO: improve the rendering system to be safer
 */
 function contentXMLToHTML(contentXML: string) {
+  // https://api.jquery.com/jQuery.parseXML/
+  let xmlDoc = $.parseXML(contentXML);
+  let $xml = $(xmlDoc);
+  let document = $xml.find("document");
   const res = contentXML
     .replace(/<image/g, "<img class=\"docimage\"")
     .replace(/<figure/g, "<div class=\"docfigure\"")
@@ -57,7 +68,11 @@ function CommentDisplay(props: {comment: ThreadComment, users: ThreadUserMap}) {
 
   return (
     <div className="comment-block">
-      <UserDisp user={poster ? poster : null} miniSize={true} />
+      <div className="userandtime">
+        <UserDisp user={poster ? poster : null} miniSize={true} />
+        <span className="smalltext">{formatDate(props.comment.created_at)}</span>
+      </div>
+      {/* TODO: fix this to be safer */}
       <span className="smalltext">
         <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.comment.content)}}></div>
       </span>
@@ -73,7 +88,10 @@ function AnswerDisplay(props: {answer: Answer, users: ThreadUserMap}) {
 
   return (
     <div>
-      <UserDisp user={poster ? poster : null} />
+      <div className="userandtime">
+        <UserDisp user={poster ? poster : null} />
+        <span className="smalltext">{formatDate(props.answer.created_at)}</span>
+      </div>
       {/* TODO: fix this to be safer */}
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.answer.content)}}></div>
       {props.answer.comments.map(
@@ -106,7 +124,10 @@ function ThreadDetailsDisplay(props: {course: Course, thread: Thread, users: Thr
   return (
     <>
       <b>{props.thread.title}</b> #{props.thread.number}
-      <UserDisp user={props.thread.user} />
+      <div className="userandtime">
+        <UserDisp user={props.thread.user} />
+        <span className="smalltext">{formatDate(props.thread.created_at)}</span>
+      </div>
       {/* TODO: fix this to be safer */}
       <div dangerouslySetInnerHTML={{__html: contentXMLToHTML(props.thread.content)}}></div>
       <hr />

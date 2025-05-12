@@ -125,5 +125,5 @@ export type ThreadComment = Answer;
 
 export type ThreadDetails = {
   answers: Answer[],
-  comments: Comment[]
+  comments: ThreadComment[]
 }
